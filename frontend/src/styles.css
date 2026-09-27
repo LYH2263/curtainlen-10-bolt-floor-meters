@@ -11,3 +11,8 @@ body{margin:0;font-family:Segoe UI,sans-serif;background:#e8eef5}
 .panel{width:28px;background:#5dade2;border:1px solid #2874a6}
 .bad{color:#c0392b}
 .fab{margin:.25rem 0}
+.fab-table{border-collapse:collapse;background:#fff}
+.fab-table th,.fab-table td{border:1px solid #aed6f1;padding:.3rem .6rem;text-align:left}
+.fab-table input{width:5rem}
+.order-line{background:#fff;padding:.4rem .6rem;display:inline-block}
+.muted{color:#7f8c8d;font-size:.85em}
