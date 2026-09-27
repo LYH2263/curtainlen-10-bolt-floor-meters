@@ -21,11 +21,22 @@ def list_runs(limit=50):
             """SELECT r.*, w.name window_name, f.name fabric_name FROM calc_runs r
             LEFT JOIN windows w ON w.id=r.window_id LEFT JOIN fabrics f ON f.id=r.fabric_id
             ORDER BY r.id DESC LIMIT ?""", (limit,)).fetchall()
-        out = []
-        for row in rows:
-            d = dict(row)
-            d["result"] = json.loads(d.pop("result_json"))
-            out.append(d)
-        return out
+        return [_decode(r) for r in rows]
     finally:
         c.close()
+
+def get_run(rid: int):
+    c = connect()
+    try:
+        row = c.execute(
+            """SELECT r.*, w.name window_name, f.name fabric_name FROM calc_runs r
+            LEFT JOIN windows w ON w.id=r.window_id LEFT JOIN fabrics f ON f.id=r.fabric_id
+            WHERE r.id=?""", (rid,)).fetchone()
+        return _decode(row) if row else None
+    finally:
+        c.close()
+
+def _decode(row):
+    d = dict(row)
+    d["result"] = json.loads(d.pop("result_json"))
+    return d

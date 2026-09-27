@@ -14,3 +14,12 @@ def get_fabric(fid: int):
         return dict(r) if r else None
     finally:
         c.close()
+
+def update_min_order(fid: int, min_order_m: float):
+    c = connect()
+    try:
+        cur = c.execute("UPDATE fabrics SET min_order_m=? WHERE id=?", (float(min_order_m), fid))
+        c.commit()
+        return cur.rowcount > 0
+    finally:
+        c.close()
